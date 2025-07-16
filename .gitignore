@@ -1,2 +1,4 @@
-node_modules/
+
 temp.txt
+node_modules/
+.env
