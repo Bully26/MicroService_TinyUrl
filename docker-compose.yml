@@ -3,8 +3,8 @@ services:
   mongo:
     image: mongo:6.0
     restart: always
-  volumes:
-    - mongo_data:/data/db
+    volumes:
+     - mongo_data:/data/db
 
   mongo-express:
     image: mongo-express
