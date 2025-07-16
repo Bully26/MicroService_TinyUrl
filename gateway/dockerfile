@@ -1,0 +1,31 @@
+#using lighter version of node
+
+FROM node:20-alpine  AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci --omit=dev
+
+COPY gateway/. .
+
+FROM node:20-alpine
+
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app .
+
+ARG GATEWAY_PORT_DEFAULT=3000
+
+ENV GATEWAY_PORT=${GATEWAY_PORT_DEFAULT}
+
+EXPOSE ${GATEWAY_PORT}
+
+ENV NODE_ENV=production
+
+RUN chown -R node:node /app
+
+USER node
+
+CMD ["node","index.js"]
