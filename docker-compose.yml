@@ -4,7 +4,7 @@ services:
     image: mongo:6.0
     restart: always
     volumes:
-     - mongo_data:/data/db
+     - mongo_data:/data
 
   mongo-express:
     image: mongo-express
@@ -88,5 +88,5 @@ services:
 
 volumes:
   redis_data:
-  mongo_data:/data/db:
+  mongo_data:
 

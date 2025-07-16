@@ -92,7 +92,7 @@ app.post('/go', async (req, res) => {
         console.log("first block");
         const data = await collection.findOne({ short: surl });
         console.log(data);
-        if (data.long) {
+        if (data !== null && data.long) {
             await redis.set(surl, data.long);
             res.status(200).send({
                 url: data.long
