@@ -12,7 +12,7 @@ A lightweight, containerized **URL SHORTNER** built using microservices architec
 
 ###  Read Service Architecture
 
-![Read Architecture](images/read.png)
+![Read Architecture](ss/read.png)
 
 ---
 
