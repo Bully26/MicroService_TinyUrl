@@ -42,6 +42,6 @@ A lightweight, containerized **URL SHORTNER** built using microservices architec
 - Scalable and Dockerized architecture
 
 ---
-git clone https://github.com/Bully26/MicroService_TinyUrl.git
-cd MicroService_TinyUrl
-docker-compose up --build
+- git clone https://github.com/Bully26/MicroService_TinyUrl.git
+- cd MicroService_TinyUrl
+- docker-compose up --build
