@@ -1,0 +1,40 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci --omit=dev
+
+COPY . .
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app .
+
+ARG GATEWAY_PORT=3000
+ARG QUEUE_Service_port=2000
+ARG READ_SERVICE_PORT=2500
+ARG MONGODB_URI=mongodb://mongo:27017
+ARG DB_NAME=myKeyValueDB
+ARG COLLECTION_NAME=kv_store
+ARG WriteDb=4000
+
+ENV GATEWAY_PORT=${GATEWAY_PORT}
+ENV QUEUE_Service_port=${QUEUE_Service_port}
+ENV READ_SERVICE_PORT=${READ_SERVICE_PORT}
+ENV MONGODB_URI=${MONGODB_URI}
+ENV DB_NAME=${DB_NAME}
+ENV COLLECTION_NAME=${COLLECTION_NAME}
+ENV WriteDb=${WriteDb}
+
+ENV NODE_ENV=production
+
+RUN chown -R node:node /app
+
+USER node
+
+CMD ["node", "index.js"]

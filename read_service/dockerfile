@@ -1,0 +1,36 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci --omit=dev
+
+COPY . .
+
+FROM node:20-alpine
+
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app .
+
+ARG READ_SERVICE_PORT_DEFAULT=2500
+ARG REDIS_HOST_DEFAULT="redis"
+ARG REDIS_PORT_DEFAULT=6379
+ARG MONGODB_URI_DEFAULT="mongodb://mongo:27017"
+ARG DB_NAME_DEFAULT="myKeyValueDB"
+ARG COLLECTION_NAME_DEFAULT="kv_store"
+
+ENV MONGODB_URI=${MONGODB_URI_DEFAULT}
+ENV DB_NAME=${DB_NAME_DEFAULT}
+ENV COLLECTION_NAME=${COLLECTION_NAME_DEFAULT}
+ENV READ_SERVICE_PORT=${READ_SERVICE_PORT_DEFAULT}
+ENV REDIS_HOST=${REDIS_HOST_DEFAULT}
+ENV REDIS_PORT=${REDIS_PORT_DEFAULT}
+ENV NODE_ENV=production
+EXPOSE ${READ_SERVICE_PORT}
+
+RUN chown -R node:node /app
+USER node
+
+CMD ["node", "index.js"]

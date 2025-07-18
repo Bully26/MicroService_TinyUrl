@@ -1,0 +1,33 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci --omit=dev
+
+COPY . .
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app .
+
+ARG QUEUE_Service_por=2000
+ARG REDIS_HOS=redis
+ARG REDIS_POR=6379
+
+ENV QUEUE_Service_port=${QUEUE_Service_por}
+ENV REDIS_HOST=${REDIS_HOS}
+ENV REDIS_PORT=${REDIS_POR}
+ENV NODE_ENV=production
+
+EXPOSE ${QUEUE_Service_port}
+
+RUN chown -R node:node /app
+
+USER node
+
+CMD ["node", "index.js"]

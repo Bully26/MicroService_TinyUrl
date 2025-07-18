@@ -1,0 +1,19 @@
+{
+  "name": "insta_arch",
+  "version": "1.0.0",
+  "description": "this will be simplified version of architecture of insta ",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "priyanshu pradhan",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.8",
+    "axios": "^1.10.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "ioredis": "^5.6.1",
+    "mongodb": "^6.17.0"
+  }
+}
